@@ -44,6 +44,7 @@ class Customer(models.Model):
 
 
 class Address(models.Model):
+    postal_code = models.CharField(max_length=20)
     street = models.CharField(max_length=255)
     city = models.CharField(max_length=255)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
