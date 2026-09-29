@@ -1,5 +1,4 @@
 from django.contrib import admin
-from django.core.validators import MinValueValidator
 from django.db.models.aggregates import Count
 from django.urls import reverse
 from django.utils.html import format_html
