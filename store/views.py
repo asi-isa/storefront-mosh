@@ -72,5 +72,12 @@ def collection_detail(request, id):
         serializer.save()
         return Response(serializer.data)
     elif request.method == "DELETE":
+        if collection.products.count() > 0:
+            return Response(
+                {
+                    "error": "Collection can not be deleted because it inlcudes one or more products."
+                },
+                status=status.HTTP_405_METHOD_NOT_ALLOWED,
+            )
         collection.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
