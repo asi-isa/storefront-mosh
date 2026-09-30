@@ -58,7 +58,7 @@ def collection_list(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-@api_view(["GET", "PUT"])
+@api_view(["GET", "PUT", "DELETE"])
 def collection_detail(request, id):
     collection = get_object_or_404(Collection, pk=id)
     if request.method == "GET":
@@ -69,3 +69,6 @@ def collection_detail(request, id):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
+    elif request.method == "DELETE":
+        collection.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
