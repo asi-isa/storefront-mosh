@@ -60,4 +60,7 @@ def collection_list(request):
 
 @api_view(["GET"])
 def collection_detail(request, id):
-    pass
+    collection = get_object_or_404(Collection, pk=id)
+    if request.method == "GET":
+        serializer = CollectionSerializer(collection)
+        return Response(serializer.data)
