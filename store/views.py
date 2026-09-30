@@ -45,11 +45,17 @@ def product_detail(request, id):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-@api_view(["GET"])
+@api_view(["GET", "POST"])
 def collection_list(request):
-    queryset = Collection.objects.prefetch_related("products").all()
-    serializer = CollectionSerializer(queryset, many=True)
-    return Response(serializer.data)
+    if request.method == "GET":
+        queryset = Collection.objects.prefetch_related("products").all()
+        serializer = CollectionSerializer(queryset, many=True)
+        return Response(serializer.data)
+    elif request.method == "POST":
+        serializer = CollectionSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 @api_view(["GET"])
