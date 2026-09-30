@@ -103,4 +103,4 @@ class CollectionAdmin(admin.ModelAdmin):
         return format_html("<a href={}>{}</a>", href, collection.product_count)
 
     def get_queryset(self, request):
-        return super().get_queryset(request).annotate(product_count=Count("product"))
+        return super().get_queryset(request).annotate(product_count=Count("products"))
