@@ -48,7 +48,7 @@ def product_detail(request, id):
 @api_view(["GET", "POST"])
 def collection_list(request):
     if request.method == "GET":
-        queryset = Collection.objects.prefetch_related("products").all()
+        queryset = Collection.objects.annotate(products_count=Count('products')).all()
         serializer = CollectionSerializer(queryset, many=True)
         return Response(serializer.data)
     elif request.method == "POST":

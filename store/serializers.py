@@ -5,10 +5,7 @@ from .models import Product, Collection
 
 
 class CollectionSerializer(serializers.ModelSerializer):
-    products_count = serializers.SerializerMethodField("count_products")
-
-    def count_products(self, collection: Collection):
-        return collection.products.count()
+    products_count = serializers.IntegerField()
 
     class Meta:
         model = Collection
