@@ -1,10 +1,11 @@
 from django.shortcuts import get_object_or_404
+from django.db.models.aggregates import Count
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 
-from .models import Product
-from .serializers import ProductSerializer
+from .models import Product, Collection
+from .serializers import ProductSerializer, CollectionSerializer
 
 
 @api_view(["GET", "POST"])
@@ -42,3 +43,15 @@ def product_detail(request, id):
             )
         product.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(["GET"])
+def collection_list(request):
+    queryset = Collection.objects.prefetch_related("products").all()
+    serializer = CollectionSerializer(queryset, many=True)
+    return Response(serializer.data)
+
+
+@api_view(["GET"])
+def collection_detail(request, id):
+    pass
