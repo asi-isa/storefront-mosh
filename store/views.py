@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404
 from django.db.models.aggregates import Count
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from rest_framework import status
 
@@ -8,13 +9,13 @@ from .models import Product, Collection
 from .serializers import ProductSerializer, CollectionSerializer
 
 
-@api_view(["GET", "POST"])
-def product_list(request):
-    if request.method == "GET":
+class ProductList(APIView):
+    def get(self, request):
         products = Product.objects.select_related("collection").all()
         serializer = ProductSerializer(products, many=True)
         return Response(serializer.data)
-    elif request.method == "POST":
+
+    def post(self, request):
         serializer = ProductSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
