@@ -40,20 +40,12 @@ class CollectionList(ListCreateAPIView):
     serializer_class = CollectionSerializer
 
 
-@api_view(["GET", "PUT", "DELETE"])
-def collection_detail(request, id):
-    collection = get_object_or_404(
-        Collection.objects.annotate(products_count=Count("products")), pk=id
-    )
-    if request.method == "GET":
-        serializer = CollectionSerializer(collection)
-        return Response(serializer.data)
-    elif request.method == "PUT":
-        serializer = CollectionSerializer(collection, request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data)
-    elif request.method == "DELETE":
+class CollectionDetail(RetrieveUpdateDestroyAPIView):
+    queryset = Collection.objects.annotate(products_count=Count("products"))
+    serializer_class = CollectionSerializer
+
+    def delete(self, request, pk):
+        collection = get_object_or_404(Collection, pk=pk)
         if collection.products.count() > 0:
             return Response(
                 {
