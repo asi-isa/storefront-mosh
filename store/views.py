@@ -3,8 +3,8 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework import status
 
-from .models import Product, Collection, OrderItem
-from .serializers import ProductSerializer, CollectionSerializer
+from .models import Product, Collection, OrderItem, Review
+from .serializers import ProductSerializer, CollectionSerializer, ReviewSerializer
 
 
 class ProductViewSet(ModelViewSet):
@@ -39,3 +39,8 @@ class CollectionViewSet(ModelViewSet):
             )
 
         return super().destroy(request, *args, **kwargs)
+
+
+class ReviewViewSet(ModelViewSet):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
