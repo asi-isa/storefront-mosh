@@ -74,7 +74,7 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "storefront",
-        "USER": "storefront_user",
+        "USER": "alisonerinceoglu",
         "PASSWORD": "password321",
         "HOST": "localhost",
         "PORT": "5432",
@@ -129,9 +129,7 @@ MAILERS = {
 }
 
 INTERNAL_IPS = [
-    # ...
     "127.0.0.1",
-    # ...
 ]
 
 REST_FRAMEWORK = {"COERCE_DECIMAL_TO_STRING": False}
