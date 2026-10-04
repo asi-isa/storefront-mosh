@@ -12,13 +12,23 @@ from rest_framework import status
 
 from .filters import ProductFilter
 from .pagination import DefaultPagination
-from .models import Product, Collection, OrderItem, Review, Cart
+from .models import Product, Collection, OrderItem, Review, Cart, CartItem
 from .serializers import (
     ProductSerializer,
     CollectionSerializer,
     ReviewSerializer,
     CartSerializer,
+    ItemSerializer,
 )
+
+
+class CartItemViewSet(ModelViewSet):
+    serializer_class = ItemSerializer
+
+    def get_queryset(self):
+        return CartItem.objects.select_related("product").filter(
+            cart_id=self.kwargs["cart_pk"]
+        )
 
 
 class CartViewSet(
